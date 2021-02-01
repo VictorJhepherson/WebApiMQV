@@ -8,8 +8,8 @@ exports.login = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error }) }
         const query = `SELECT * 
-                        FROM HOMOLOG_MQV.SYSTEMUSERS SU
-                       INNER JOIN HOMOLOG_MQV.USERS USR
+                        FROM SYSTEMUSERS SU
+                       INNER JOIN USERS USR
                           ON USR.USR_ID = SU.USR_ID
                        WHERE SU_LOGINNAME = ?`;
         conn.query(query, [req.body.SU_LOGINNAME], (error, results, fields) => {

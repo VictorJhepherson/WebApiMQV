@@ -6,7 +6,7 @@ exports.getChurchs = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-        'CALL HOMOLOG_MQV.SELECT_CHURCH();', 
+        'CALL SELECT_CHURCH();', 
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
@@ -23,7 +23,7 @@ exports.getChurchsByDesc = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL HOMOLOG_MQV.SELECT_CHURCHBYDESC(?);',
+            'CALL SELECT_CHURCHBYDESC(?);',
             [req.body.CHURCH_DESC], 
             (error, result, field) => {
                 conn.release();
@@ -41,7 +41,7 @@ exports.insertChurchs = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL HOMOLOG_MQV.INSERT_CHURCHS(?);',
+            'CALL INSERT_CHURCHS(?);',
             [req.body.CHURCH_DESC],
             (error, result, field) => {
                 conn.release();
@@ -60,7 +60,7 @@ exports.updateChurchs = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL HOMOLOG_MQV.UPDATE_CHURCHS(?, ?, ?)',
+            'CALL UPDATE_CHURCHS(?, ?, ?)',
             [req.body.CHURCH_ID, req.body.CHURCH_DESC, req.body.CHURCH_STATUS],
             (error, result, field) => {
                 conn.release();
@@ -78,7 +78,7 @@ exports.deleteChurchs = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL HOMOLOG_MQV.DELETE_CHURCHS(?);',
+            'CALL DELETE_CHURCHS(?);',
             [req.body.CHURCH_ID],
             (error, result, field) => {
                 conn.release();
