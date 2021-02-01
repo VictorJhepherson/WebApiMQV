@@ -7,6 +7,6 @@
         "MYSQL_PORT": 3306,
 
         "JWT_KEY": "KeyMQVApi#374",
-        "URL_API": "localhost:2000/"
+        "URL_API": "http://localhost:2000/"
     }
 }
