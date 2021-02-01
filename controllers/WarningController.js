@@ -13,7 +13,7 @@ exports.getWarnings = (req, res, next) => {
                 if(error) { res.status(500).send({ error: error }) }
                 
                 res.status(200).send({
-                    warnings: result
+                    warnings: result[0]
                 });
             }
         )
