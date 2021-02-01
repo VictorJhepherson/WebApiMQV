@@ -18,10 +18,7 @@ exports.login = (req, res, next) => {
             if (results.length < 1) {
                 return res.status(401).send({ mensagem: 'Falha na autenticação'});
             }
-            console.log(req.body.SU_PASSWORD);
             bcrypt.compare(req.body.SU_PASSWORD, results[0].SU_PASSWORD, (err, result) => {
-                console.log(err);
-                console.log(result)
                 if (err) {
                     return res.status(401).send({ mensagem: 'Falha na autenticação'});
                 }

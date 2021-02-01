@@ -7,6 +7,7 @@ const rotaUsers = require('./routes/users');
 const rotaChurchs = require('./routes/churchs');
 const rotaUserFunction = require('./routes/userfunction');
 const rotaSchedules = require('./routes/schedules');
+const rotaWarning = require('./routes/warning');
 
 const rotaLogin = require('./routes/login');
 
@@ -32,6 +33,7 @@ app.use('/users', rotaUsers);
 app.use('/churchs', rotaChurchs);
 app.use('/userfunction', rotaUserFunction);
 app.use('/schedules', rotaSchedules);
+app.use('/warning', rotaWarning);
 
 app.use('/login', rotaLogin);
 
