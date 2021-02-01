@@ -36,7 +36,7 @@ const upload = multer({
 router.get('/AllUsers', login, UserController.getUsers);
 router.get('/', login, UserController.getUsersByName);
 router.post('/', upload.single('USR_PHOTO'), UserController.insertUsers);
-router.patch('/', upload.single('USR_PHOTO'), login, UserController.updateUsers);
+router.patch('/', upload.single('USR_PHOTO'), UserController.updateUsers);
 router.delete('/', login, UserController.deleteUsers);
 
 module.exports = router;
