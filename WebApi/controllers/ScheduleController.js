@@ -41,10 +41,10 @@ exports.insertSchedules = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL HOMOLOG_MQV.INSERT_SCHEDULES(?, ?, ?, ?, ?, ?);',
+            'CALL HOMOLOG_MQV.INSERT_SCHEDULES(?, ?, ?, ?, ?);',
             [
                 req.body.USERFUNC_DESC, req.body.SCHEDULE_TITLE, req.body.SCHEDULE_DATE, 
-                req.body.SCHEDULE_INFORMATION, req.body.P_ADD_ID, req.body.P_CHURCH_ID
+                req.body.SCHEDULE_INFORMATION, req.body.P_CHURCH_ID
             ],
             (error, result, field) => {
                 conn.release();
@@ -63,11 +63,10 @@ exports.updateSchedules = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL HOMOLOG_MQV.UPDATE_SCHEDULES(?, ?, ?, ?, ?, ?, ?)',
+            'CALL HOMOLOG_MQV.UPDATE_SCHEDULES(?, ?, ?, ?, ?, ?)',
             [
                 req.body.SCHEDULE_ID, req.body.SCHEDULE_DESC, req.body.P_SCHEDULE_TITLE,
-                req.body.SCHEDULE_DATE, req.body.SCHEDULE_INFORMATION, req.body.ADD_ID,
-                req.body.CHURCH_ID
+                req.body.SCHEDULE_DATE, req.body.SCHEDULE_INFORMATION, req.body.CHURCH_ID
             ],
             (error, result, field) => {
                 conn.release();
