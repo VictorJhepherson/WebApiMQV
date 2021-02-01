@@ -1,11 +1,12 @@
 {
     "env":{
-        "MYSQL_USER": "b378ca513b3267",
-        "MYSQL_PSW": "0cc3745b",
-        "MYSQL_DATABASE": "heroku_936c07365f04904",
-        "MYSQL_HOST": "us-cdbr-east-03.cleardb.com",
+        "MYSQL_USER": "ADMIN",
+        "MYSQL_PSW": "ADMIN",
+        "MYSQL_DATABASE": "HOMOLOG_MQV",
+        "MYSQL_HOST": "localhost",
         "MYSQL_PORT": 3306,
 
-        "JWT_KEY": "KeyMQVApi#374"
+        "JWT_KEY": "KeyMQVApi#374",
+        "URL_API": "localhost:2000/"
     }
 }
