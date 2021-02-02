@@ -37,7 +37,6 @@ exports.login = (req, res, next) => {
 };
 
 exports.refresh = (req, res, next) => {
-    console.log(req.body.token);
     if (req.body.token) {
         let token = jwt.sign(process.env.JWT_KEY, {expiresIn: "7d"});
         return res.status(200).send({ mensagem: 'Autenticado com sucesso', token: token})
