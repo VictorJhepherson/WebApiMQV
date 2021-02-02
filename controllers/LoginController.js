@@ -35,7 +35,9 @@ exports.login = (req, res, next) => {
 };
 
 exports.logout = (req, res, next) => {
-    res.status(200).send({ mensagem: 'Logout com sucesso', token: null });
+    if (req.body.token != null && req.body.token != undefined) {
+        res.status(200).send({ mensagem: 'Logout com sucesso', token: null });
+    } 
 };
 
 exports.refresh = (req, res, next) => {
