@@ -116,7 +116,7 @@ exports.updateUsers = (req, res, next) => {
             conn.query(
                 'CALL UPDATE_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [
-                    req.body.USR_ID, req.body.USRTYPE, req.body.USR_NAME, req.file.path 
+                    req.body.USR_ID, req.body.USRTYPE, req.body.USR_NAME, req.file.path,
                     req.body.USR_DATEBIRTHDAY, req.body.USR_FUNCTIONID, req.body.USR_PHONENUMBER, req.body.CHURCH_ID, 
                     req.body.USR_STATUS, req.body.USR_REGUSER, req.body.USRDOC_ID, req.body.USRDOC_CPFNUMBER, 
                     req.body.USRDOC_RGNUMBER, req.body.USRDOC_STATUS, req.body.ADD_ID, req.body.STREET, 
