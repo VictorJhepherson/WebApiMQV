@@ -10,8 +10,8 @@ exports.getChurchs = (req, res, next) => {
         conn.query(
         `SELECT CHURCH_ID, 
                 CHURCH_DESC
-            FROM CHURCHS
-            WHERE CHURCH_STATUS = 'A'`,
+           FROM CHURCHS
+          WHERE CHURCH_STATUS = 'A'`,
             (error, results, fields) => {
                 conn.release();
                 if(error) { return res.status(500).send({ error: error }) }
@@ -25,14 +25,14 @@ exports.getChurchs = (req, res, next) => {
     });
 };
 
-exports.getUserTypes = (req, res, next) => {
+exports.getTypeHouse = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error }) }
         conn.query(
-        `SELECT USRTYPE, 
-                USRTYPE_DESC
-            FROM USERTYPES
-            WHERE USRTYPE_STATUS = 'A'`,
+        `SELECT TYPEHOUSE_ID, 
+                TYPEHOUSE_DESC
+           FROM TYPEHOUSE
+          WHERE TYPEHOUSE_STATUS = 'A'`,
             (error, results, fields) => {
                 conn.release();
                 if(error) { return res.status(500).send({ error: error }) }
