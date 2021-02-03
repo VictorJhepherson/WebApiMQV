@@ -18,7 +18,7 @@ exports.getChurchs = (req, res, next) => {
                 if (results.length < 1) {
                     return res.status(401).send({ mensagem: 'Falha na autenticação'});
                 } else {
-                    return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results[0]});
+                    return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results});
                 }
             }
         );
@@ -39,7 +39,7 @@ exports.getTypeHouse = (req, res, next) => {
                 if (results.length < 1) {
                     return res.status(401).send({ mensagem: 'Falha na autenticação'});
                 } else {
-                    return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results[0]});
+                    return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results});
                 }
             }
         );
