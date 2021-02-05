@@ -13,7 +13,7 @@ exports.getUserProfile = (req, res, next) => {
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
-                res.status(200).send({ mensagem: 'Consulta realizada com sucesso', data: result[0] });
+                return res.status(200).send({ mensagem: 'Consulta realizada com sucesso', data: result[0] });
             }
         )
     });
@@ -28,7 +28,7 @@ exports.getUsers = (req, res, next) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
                 
-                res.status(200).send({ data: result });
+                return res.status(200).send({ data: result });
             }
         )
     });
@@ -43,7 +43,7 @@ exports.getUsersByName = (req, res, next) => {
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
-                res.status(200).send({ data: result });
+                return res.status(200).send({ data: result });
             }
         )
     });
@@ -72,7 +72,7 @@ exports.insertUsers = (req, res, next) => {
                             conn.release();
                             if(error) { res.status(500).send({ error: error }) }
             
-                            res.status(201).send({
+                            return res.status(201).send({
                                 mensagem: 'Usuário criado com sucesso',
                                 USR_ID: result.insertId
                             });
@@ -106,7 +106,7 @@ exports.registerUsers = (req, res, next) => {
                             conn.release();
                             if(error) { res.status(500).send({ error: error }) }
             
-                            res.status(201).send({
+                            return res.status(201).send({
                                 mensagem: 'Usuário criado com sucesso',
                                 USR_ID: result.insertId
                             });
