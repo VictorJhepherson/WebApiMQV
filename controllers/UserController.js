@@ -13,9 +13,7 @@ exports.getUserProfile = (req, res, next) => {
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
-                res.status(200).send({
-                    usuário: result[0]
-                });
+                res.status(200).send({ mensagem: 'Consulta realizada com sucesso', data: result[0] });
             }
         )
     });
@@ -30,9 +28,7 @@ exports.getUsers = (req, res, next) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
                 
-                res.status(200).send({
-                    usuário: result
-                });
+                res.status(200).send({ data: result });
             }
         )
     });
@@ -47,9 +43,7 @@ exports.getUsersByName = (req, res, next) => {
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
-                res.status(200).send({
-                    usuário: result
-                });
+                res.status(200).send({ data: result });
             }
         )
     });
