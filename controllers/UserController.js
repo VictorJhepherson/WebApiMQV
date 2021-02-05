@@ -14,7 +14,7 @@ exports.getUserProfile = (req, res, next) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
                 res.status(200).send({
-                    usuário: result
+                    usuário: result[0]
                 });
             }
         )
