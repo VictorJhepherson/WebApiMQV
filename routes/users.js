@@ -39,5 +39,6 @@ router.post('/', upload.single('USR_PHOTO'), UserController.insertUsers);
 router.post('/register', upload.single('USR_PHOTO'), UserController.registerUsers);
 router.patch('/', upload.single('USR_PHOTO'), UserController.updateUsers);
 router.delete('/', login, UserController.deleteUsers);
+router.post('/getUserProfile', login, UserController.getUserProfile);
 
 module.exports = router;

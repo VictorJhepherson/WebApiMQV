@@ -4,6 +4,23 @@ const mysql = require('../mysql').pool;
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 
+exports.getUserProfile = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if(error) { return res.status(500).send({ error: error}) }
+        conn.query(
+            'CALL SELECT_USERPROFILE(?);',
+            [req.body.USR_ID],
+            (error, result, field) => {
+                conn.release();
+                if(error) { res.status(500).send({ error: error }) }
+                res.status(200).send({
+                    usuário: result
+                });
+            }
+        )
+    });
+}
+
 exports.getUsers = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
@@ -30,7 +47,6 @@ exports.getUsersByName = (req, res, next) => {
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
-                console.log(result);
                 res.status(200).send({
                     usuário: result
                 });
