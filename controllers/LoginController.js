@@ -41,10 +41,24 @@ exports.logout = (req, res, next) => {
 };
 
 exports.refresh = (req, res, next) => {
-    const data = req.body.user;
     if (req.body.token != null && req.body.token != undefined) {
-        let token = jwt.sign({SU_LOGINNAME: data.SU_LOGINNAME}, process.env.JWT_KEY, {expiresIn: "7d"});
-        return res.status(200).send({ mensagem: 'Autenticado com sucesso', token: token});
+        mysql.getConnection((error, conn) => {
+            if(error) { return res.status(500).send({ error: error }) }
+            const query = `SELECT * 
+                             FROM SYSTEMUSERS SU
+                            INNER JOIN USERS USR
+                               ON USR.USR_ID = SU.USR_ID
+                            WHERE SU.USR_ID = ?`;
+            conn.query(query, [req.body.user], (error, results, fields) => {
+                conn.release();
+                if(error) { return res.status(500).send({ error: error }) }
+                if (results.length < 1) {
+                    return res.status(401).send({ mensagem: 'Falha na autenticação'});
+                }
+                let token = jwt.sign({ SU_LOGINNAME: results[0].SU_LOGINNAME }, process.env.JWT_KEY, {expiresIn: "7d" });
+                return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results[0], token: token});
+            });
+        });
     } else {
         return res.status(401).send({ mensagem: 'Falha na autenticação'});
     }
