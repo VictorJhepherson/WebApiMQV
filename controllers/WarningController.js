@@ -28,6 +28,8 @@ exports.getWarning = (req, res, next) => {
                FROM WARNINGS WRG
               INNER JOIN WARNINGPHOTOS WPH
                  ON WRG.WARNING_ID = WPH.WARNING_ID
+              INNER JOIN ADDRESSWARNING ADW
+                 ON WRG.WARNING_ID = ADW.WARNING_ID
               WHERE WRG.WARNING_ID = ?`,
             [req.body.WARNING_ID], 
             (error, result, field) => {
@@ -46,8 +48,11 @@ exports.insertWarnings = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL INSERT_WARNINGS(?, ?, ?, ?)',
-            [req.body.WARNING_TITLE, req.body.WARNING_DESC, req.body.WARNING_DATE, req.body.WARNING_REGUSER],
+            'CALL INSERT_WARNINGS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+                req.body.WARNING_TITLE, req.body.WARNING_DATE, req.body.WARNING_REGUSER, req.body.WARNING_PHOTOS, req.body.STREET,
+                req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, req.body.COMPLEMENT, req.body.CITY, req.body.STATE            
+            ],
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
@@ -82,10 +87,11 @@ exports.updateWarnings = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL UPDATE_WARNINGS(?, ?, ?, ?, ?, ?)',
+            'CALL UPDATE_WARNINGS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
-                req.body.WARNING_ID, req.body.WARNING_TITLE, req.body.WARNING_DESC, req.body.WARNING_DATE, req.body.WARNING_STATUS, 
-                req.body.WARNING_REGUSER
+                req.body.WARNING_ID, req.body.WARNING_TITLE, req.body.WARNING_DATE, req.body.WARNING_STATUS, 
+                req.body.WARNING_REGUSER, req.body.STREET, req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, 
+                req.body.COMPLEMENT, req.body.CITY, req.body.STATE
             ],
             (error, result, field) => {
                 conn.release();
@@ -99,23 +105,6 @@ exports.updateWarnings = (req, res, next) => {
     });
 };
 
-exports.UpdateWarningPhoto = (req, res, next) => {
-    mysql.getConnection((error, conn) => {
-        if(error) { return res.status(500).send({ error: error}) }
-        conn.query(
-            'CALL UPDATE_WARNINGPHOTOS(?, ?)',
-            [req.body.WARNING_ID, req.body.WARNING_PHOTOS],
-            (error, result, field) => {
-                conn.release();
-                if(error) { res.status(500).send({ error: error }) }
-
-                res.status(202).send({
-                    mensagem: 'Aviso atualizado com sucesso'
-                });
-            }
-        )
-    });
-};
 
 exports.deleteWarnings = (req, res, next) => {
     mysql.getConnection((error, conn) => {

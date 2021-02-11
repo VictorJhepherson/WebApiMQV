@@ -34,10 +34,9 @@ const upload = multer({
 });
 
 router.get('/', login, WarningController.getWarnings);
-router.post('/', login, WarningController.insertWarnings);
+router.post('/', login, upload.single('WARNING_PHOTOS'), WarningController.insertWarnings);
 router.post('/warningId', login, WarningController.getWarning);
 router.post('/warningphotos', login, upload.single('WARNING_PHOTOS'), WarningController.insertWarningPhoto);
-router.patch('/warningphotos', login, upload.single('WARNING_PHOTOS'), WarningController.UpdateWarningPhoto);
 router.patch('/', login,  WarningController.updateWarnings);
 router.delete('/', login, WarningController.deleteWarnings);
 
