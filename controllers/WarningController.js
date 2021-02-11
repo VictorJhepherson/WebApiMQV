@@ -32,7 +32,7 @@ exports.getWarning = (req, res, next) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
                 
-                res.status(200).send({
+                res.status(202).send({
                     warnings: result[0]
                 });
             }
