@@ -20,6 +20,26 @@ exports.getWarnings = (req, res, next) => {
     });
 };
 
+exports.getWarning = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if(error) { return res.status(500).send({ error: error}) }
+        conn.query(
+            `SELECT *
+               FROM WARNINGS
+              WHERE WARNING_ID = ?`,
+            [req.body.WARNING_ID], 
+            (error, result, field) => {
+                conn.release();
+                if(error) { res.status(500).send({ error: error }) }
+                
+                res.status(200).send({
+                    warnings: result[0]
+                });
+            }
+        )
+    });
+};
+
 exports.insertWarnings = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
