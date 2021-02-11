@@ -50,7 +50,7 @@ exports.insertWarnings = (req, res, next) => {
         conn.query(
             'CALL INSERT_WARNINGS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
-                req.body.WARNING_TITLE, req.body.WARNING_DATE, req.body.WARNING_REGUSER, req.body.WARNING_PHOTOS, req.body.STREET,
+                req.body.WARNING_TITLE, req.body.WARNING_DATE, req.body.WARNING_REGUSER, req.file.path, req.body.STREET,
                 req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, req.body.COMPLEMENT, req.body.CITY, req.body.STATE            
             ],
             (error, result, field) => {
@@ -70,7 +70,7 @@ exports.insertWarningPhoto = (req, res, next) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
             'CALL INSERT_WARNINGPHOTOS(?, ?)',
-            [req.body.WARNING_ID, req.body.WARNING_PHOTOS],
+            [req.body.WARNING_ID, req.file.path],
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }

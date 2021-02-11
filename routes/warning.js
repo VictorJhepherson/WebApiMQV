@@ -9,11 +9,12 @@ const WarningController = require('../controllers/WarningController');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb){
-        cb(null, './warning-uploads/');
+        cb(null, './warningphotos/');
     },
     filename: function(req, file, cb){
         let data = new Date().toISOString().replace(/:/g, '-') + '-';
-        cb(null, data + file.originalname);
+        let url = 'https://projectmqv-webapi.herokuapp.com/uploads';
+        cb(null, url + data + file.originalname);
     }
 });
 
@@ -37,7 +38,7 @@ router.get('/', login, WarningController.getWarnings);
 router.post('/', login, upload.single('WARNING_PHOTOS'), WarningController.insertWarnings);
 router.post('/warningId', login, WarningController.getWarning);
 router.post('/warningphotos', login, upload.single('WARNING_PHOTOS'), WarningController.insertWarningPhoto);
-router.patch('/', login,  WarningController.updateWarnings);
+router.patch('/', login, WarningController.updateWarnings);
 router.delete('/', login, WarningController.deleteWarnings);
 
 module.exports = router;

@@ -13,7 +13,8 @@ const storage = multer.diskStorage({
     },
     filename: function(req, file, cb){
         let data = new Date().toISOString().replace(/:/g, '-') + '-';
-        cb(null, data + file.originalname);
+        let url = 'https://projectmqv-webapi.herokuapp.com/uploads';
+        cb(null, url + data + file.originalname);
     }
 });
 
