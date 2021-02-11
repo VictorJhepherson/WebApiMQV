@@ -25,8 +25,10 @@ exports.getWarning = (req, res, next) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
             `SELECT *
-               FROM WARNINGS
-              WHERE WARNING_ID = ?`,
+               FROM WARNINGS WRG
+              INNER JOIN WARNINGPHOTOS WPH
+                 ON WRG.WARNING_ID = WPH.WARNING_ID
+              WHERE WRG.WARNING_ID = ?`,
             [req.body.WARNING_ID], 
             (error, result, field) => {
                 conn.release();
