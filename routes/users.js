@@ -35,7 +35,7 @@ const upload = multer({
 });
 
 router.get('/AllUsers', login, UserController.getUsers);
-router.get('/', login, UserController.getUsersByName);
+router.post('/', login, UserController.getUsersByName);
 router.post('/', upload.single('USR_PHOTO'), UserController.insertUsers);
 router.post('/register', upload.single('USR_PHOTO'), UserController.registerUsers);
 router.patch('/', upload.single('USR_PHOTO'), UserController.updateUsers);
