@@ -43,7 +43,7 @@ exports.getUsersByName = (req, res, next) => {
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error }) }
-                return res.status(200).send({ data: result });
+                return res.status(200).send({ data: result[0] });
             }
         )
     });
