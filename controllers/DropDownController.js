@@ -11,7 +11,9 @@ exports.getChurchs = (req, res, next) => {
         `SELECT CHURCH_ID, 
                 CHURCH_DESC
            FROM CHURCHS
-          WHERE CHURCH_STATUS = 'A'`,
+          WHERE CHURCH_STATUS = 'A'
+            AND CHURCH_DESC`,
+            [req.body.CHURCH_DESC],
             (error, results, fields) => {
                 conn.release();
                 if(error) { return res.status(500).send({ error: error }) }
@@ -32,7 +34,9 @@ exports.getTypeHouse = (req, res, next) => {
         `SELECT TYPEHOUSE_ID, 
                 TYPEHOUSE_DESC
            FROM TYPEHOUSE
-          WHERE TYPEHOUSE_STATUS = 'A'`,
+          WHERE TYPEHOUSE_STATUS = 'A'
+            AND TYPEHOUSE_DESC = '?'`,
+            [req.body.TYPEHOUSE_DESC],
             (error, results, fields) => {
                 conn.release();
                 if(error) { return res.status(500).send({ error: error }) }
@@ -51,7 +55,9 @@ exports.getStates = (req, res, next) => {
         if(error) { return res.status(500).send({ error: error }) }
         conn.query(
         `SELECT *
-           FROM STATES`,
+           FROM STATES
+          WHERE STATES_DESC = '?'`,
+            [req.body.STATES_DESC],
             (error, results, fields) => {
                 conn.release();
                 if(error) { return res.status(500).send({ error: error }) }
