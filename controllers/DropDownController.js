@@ -40,11 +40,8 @@ exports.getTypeHouse = (req, res, next) => {
             (error, results, fields) => {
                 conn.release();
                 if(error) { return res.status(500).send({ error: error }) }
-                if (results.length < 1) {
-                    return res.status(401).send({ mensagem: 'Falha na autenticação'});
-                } else {
-                    return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results});
-                }
+                
+                return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results});
             }
         );
     });
