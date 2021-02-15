@@ -12,7 +12,7 @@ exports.getChurchs = (req, res, next) => {
                 CHURCH_DESC
            FROM CHURCHS
           WHERE CHURCH_STATUS = 'A'
-            AND CHURCH_DESC`,
+            AND CHURCH_DESC NOT IN ('?')`,
             [req.body.CHURCH_DESC],
             (error, results, fields) => {
                 conn.release();
@@ -35,7 +35,7 @@ exports.getTypeHouse = (req, res, next) => {
                 TYPEHOUSE_DESC
            FROM TYPEHOUSE
           WHERE TYPEHOUSE_STATUS = 'A'
-            AND TYPEHOUSE_DESC = '?'`,
+            AND TYPEHOUSE_DESC NOT IN ('?')`,
             [req.body.TYPEHOUSE_DESC],
             (error, results, fields) => {
                 conn.release();
@@ -56,7 +56,7 @@ exports.getStates = (req, res, next) => {
         conn.query(
         `SELECT *
            FROM STATES
-          WHERE STATES_DESC = '?'`,
+          WHERE STATES_DESC NOT IN ('?')`,
             [req.body.STATES_DESC],
             (error, results, fields) => {
                 conn.release();
