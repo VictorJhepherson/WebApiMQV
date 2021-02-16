@@ -121,29 +121,25 @@ exports.registerUsers = (req, res, next) => {
 exports.updateUsers = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
-        bcrypt.hash(req.body.SU_PASSWORD, 10, (errBcrypt, hash) => {
-            if(errBcrypt){ return res.status(500).send({ error: errBcrypt }) }
-            conn.query(
-                'CALL UPDATE_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [
-                    req.body.USR_ID, req.body.USRTYPE, req.body.USR_NAME, req.file.path,
-                    req.body.USR_DATEBIRTHDAY, req.body.USR_FUNCTIONID, req.body.USR_PHONENUMBER, req.body.CHURCH_ID, 
-                    req.body.USR_STATUS, req.body.USR_REGUSER, req.body.USRDOC_ID, req.body.USRDOC_CPFNUMBER, 
-                    req.body.USRDOC_RGNUMBER, req.body.USRDOC_STATUS, req.body.ADD_ID, req.body.STREET, 
-                    req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, req.body.COMPLEMENT, req.body.TYPEHOUSE, 
-                    req.body.CITY, req.body.STATE, req.body.SU_ID, req.body.SU_LOGINNAME, hash, 
-                    req.body.SU_STATUS
-                ],
-                (error, result, field) => {
-                    conn.release();
-                    if(error) { res.status(500).send({ error: error }) }
+        conn.query(
+            'CALL UPDATE_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+                req.body.USR_ID, req.body.USRTYPE, req.body.USR_NAME, 
+                req.body.USR_DATEBIRTHDAY, req.body.USR_PHONENUMBER, req.body.CHURCH_ID, 
+                req.body.USR_STATUS, req.body.USRDOC_CPFNUMBER, 
+                req.body.USRDOC_RGNUMBER, req.body.STREET, 
+                req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, req.body.COMPLEMENT, req.body.TYPEHOUSE, 
+                req.body.CITY, req.body.STATE, req.body.SU_LOGINNAME, req.body.P_USRID_REGUSER
+            ],
+            (error, result, field) => {
+                conn.release();
+                if(error) { res.status(500).send({ error: error }) }
 
-                    res.status(202).send({
-                        mensagem: 'Usuário atualizado com sucesso'
-                    });
-                }
-            )
-        });
+                res.status(202).send({
+                    mensagem: 'Usuário atualizado com sucesso'
+                });
+            }
+        )
     });
 };
 
