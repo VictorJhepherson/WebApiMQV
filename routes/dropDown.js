@@ -4,8 +4,9 @@ const login = require('../middleware/login');
 
 const DropDownController = require('../controllers/DropDownController');
 
-router.post('/combo-churchs', login, DropDownController.getChurchs);
-router.post('/combo-typehouse', login, DropDownController.getTypeHouse);
-router.post('/combo-states', login, DropDownController.getStates);
+router.post('/combo-churchs', DropDownController.getChurchs);
+router.post('/combo-typehouse', DropDownController.getTypeHouse);
+router.post('/combo-states', DropDownController.getStates);
+router.post('/combo-usertype', login, DropDownController.getUserType);
 
 module.exports = router;
