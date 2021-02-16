@@ -75,7 +75,8 @@ exports.getUserType = (req, res, next) => {
         `SELECT USRTYPE,
                 USRTYPE_DESC
            FROM USERTYPES
-          WHERE USRTYPE NOT IN (?)`,
+          WHERE USRTYPE NOT IN (?)
+            AND USRTYPE_STATUS = 'A'`,
             [req.body.USRTYPE],
             (error, results, fields) => {
                 conn.release();
