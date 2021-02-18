@@ -9,12 +9,11 @@ const UserController = require('../controllers/UserController');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb){
-        cb(null, '');
+        cb(null, 'https://projectmqv-webapi.herokuapp.com/uploads/');
     },
     filename: function(req, file, cb){
         let data = new Date().toISOString().replace(/:/g, '-') + '-';
-        let url = 'https://projectmqv-webapi.herokuapp.com/uploads/';
-        cb(null, url + data + file.originalname);
+        cb(null, data + file.originalname);
     }
 });
 
