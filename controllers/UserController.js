@@ -160,3 +160,26 @@ exports.deleteUsers = (req, res, next) => {
         )
     });
 };
+
+exports.updatePass = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if(error) { return res.status(500).send({ error: error}) }
+        bcrypt.hash(req.body.SU_PASSWORD, 10, (errBcrypt, hash) => {
+            if(errBcrypt){ return res.status(500).send({ error: errBcrypt }) }
+                conn.query(
+                    `UPDATE SYSTEMUSERS
+                        SET SU_PASSWORD = ?
+                      WHERE USR_ID = ?`,
+                    [hash, req.body.USR_ID],
+                    (error, result, field) => {
+                        conn.release();
+                        if(error) { res.status(500).send({ error: error, response: null }) }
+
+                        res.status(202).send({
+                            mensagem: 'Senha atualizada com sucesso'
+                        });
+                    }
+                )
+        });
+    });
+};

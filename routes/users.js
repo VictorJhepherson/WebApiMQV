@@ -39,6 +39,7 @@ router.post('/', login, UserController.getUsersByName);
 router.post('/', upload.single('USR_PHOTO'), UserController.insertUsers);
 router.post('/register', upload.single('USR_PHOTO'), UserController.registerUsers);
 router.patch('/', login, UserController.updateUsers);
+router.patch('/password', login, UserController.updatePass);
 router.delete('/', login, UserController.deleteUsers);
 router.post('/getUserProfile', login, UserController.getUserProfile);
 
