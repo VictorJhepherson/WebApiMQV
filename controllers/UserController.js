@@ -183,3 +183,23 @@ exports.updatePass = (req, res, next) => {
         });
     });
 };
+
+exports.updatePhoto = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if(error) { return res.status(500).send({ error: error}) }
+        conn.query(
+            `UPDATE USERS
+                SET USR_PHOTO = ?
+                WHERE USR_ID = ?`,
+            [req.file.path, req.body.USR_ID],
+            (error, result, field) => {
+                conn.release();
+                if(error) { res.status(500).send({ error: error, response: null }) }
+
+                res.status(202).send({
+                    mensagem: 'Foto atualizada com sucesso'
+                });
+            }
+        )
+    });
+};
