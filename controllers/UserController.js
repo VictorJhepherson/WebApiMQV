@@ -62,7 +62,7 @@ exports.insertUsers = (req, res, next) => {
                     conn.query(
                         'CALL INSERT_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
                         [
-                            req.body.USRTYPE, req.body.USR_NAME, req.file.path, 
+                            req.body.USRTYPE, req.body.USR_NAME, 'https://projectmqv-webapi.herokuapp.com/' + req.file.path, 
                             req.body.USR_DATEBIRTHDAY, req.body.USR_FUNCTIONID, req.body.USR_PHONENUMBER, req.body.CHURCH_ID, 
                             req.body.USR_REGUSER, req.body.USRDOC_CPFNUMBER, req.body.USRDOC_RGNUMBER,
                             req.body.STREET, req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, req.body.COMPLEMENT,
@@ -97,7 +97,7 @@ exports.registerUsers = (req, res, next) => {
                     conn.query(
                         'CALL REGISTER_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
                         [
-                            req.body.USR_NAME, req.file.path, req.body.USR_DATEBIRTHDAY, req.body.USR_FUNCTIONID, 
+                            req.body.USR_NAME, 'https://projectmqv-webapi.herokuapp.com/' + req.file.path, req.body.USR_DATEBIRTHDAY, req.body.USR_FUNCTIONID, 
                             req.body.USR_PHONENUMBER, req.body.CHURCH_ID, req.body.USRDOC_CPFNUMBER, 
                             req.body.USRDOC_RGNUMBER, req.body.STREET, req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, req.body.COMPLEMENT,
                             req.body.TYPEHOUSE, req.body.CITY, req.body.STATE, req.body.SU_LOGINNAME, hash
