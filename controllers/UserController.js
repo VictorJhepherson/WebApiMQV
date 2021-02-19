@@ -191,7 +191,7 @@ exports.updatePhoto = (req, res, next) => {
             `UPDATE USERS
                 SET USR_PHOTO = ?
                 WHERE USR_ID = ?`,
-            ['https://projectmqv-webapi.herokuapp.com/' + req.file.path, req.body.USR_ID],
+            ['https://projectmqv-webapi.herokuapp.com/' + req.file, req.body.USR_ID],
             (error, result, field) => {
                 conn.release();
                 if(error) { res.status(500).send({ error: error, response: null }) }
