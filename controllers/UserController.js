@@ -15,7 +15,7 @@ exports.getUserProfile = async (req, res, next) => {
     } catch (error) {
         return res.status(500).send({ error: error }) 
     }
-}
+};
 
 exports.getUsers = async (req, res, next) => {
     try {
@@ -49,7 +49,7 @@ exports.insertUsers = async (req, res, next) => {
         if(login.length > 0){
             res.status(409).send({ mensagem: 'Usuário já cadastrado'})
         } else {
-            bcrypt.hash(req.body.SU_PASSWORD, 10, (errBcrypt, hash) => {
+            bcrypt.hash(req.body.SU_PASSWORD, 10, async (errBcrypt, hash) =>  {
                 if(errBcrypt){ return res.status(500).send({ error: errBcrypt }) }
                 const query = "CALL INSERT_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 await mysql.execute(query,  
@@ -77,7 +77,7 @@ exports.registerUsers = async (req, res, next) => {
         if(login.length > 0){
             res.status(409).send({ mensagem: 'Usuário já cadastrado'});
         } else {
-            bcrypt.hash(req.body.SU_PASSWORD, 10, (errBcrypt, hash) => {
+            bcrypt.hash(req.body.SU_PASSWORD, 10, async (errBcrypt, hash) => {
                 if(errBcrypt){ return res.status(500).send({ error: errBcrypt }) }
                 const query = "CALL REGISTER_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 await mysql.execute(query,  
@@ -134,7 +134,7 @@ exports.deleteUsers = async (req, res, next) => {
 
 exports.updatePass = async (req, res, next) => {
     try {
-        bcrypt.hash(req.body.SU_PASSWORD, 10, (errBcrypt, hash) => {
+        bcrypt.hash(req.body.SU_PASSWORD, 10, async (errBcrypt, hash) => {
             if(errBcrypt){ return res.status(500).send({ error: errBcrypt }) }
             const query = "UPDATE SYSTEMUSERS SET SU_PASSWORD = ? WHERE USR_ID = ?";
             await mysql.execute(query, [hash, req.body.USR_ID]);
