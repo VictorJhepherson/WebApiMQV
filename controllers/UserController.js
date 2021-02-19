@@ -190,7 +190,7 @@ exports.updatePhoto = (req, res, next) => {
         conn.query(
             `UPDATE USERS
                 SET USR_PHOTO = ?
-                WHERE USR_ID = ?`,
+              WHERE USR_ID = ?`,
             ['https://projectmqv-webapi.herokuapp.com/' + req.file.path, req.body.USR_ID],
             (error, result, field) => {
                 conn.release();
