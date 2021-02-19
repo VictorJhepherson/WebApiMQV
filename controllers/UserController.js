@@ -9,7 +9,7 @@ exports.getUserProfile = async (req, res, next) => {
         const query = "CALL SELECT_USERPROFILE(?)";
         const result = await mysql.execute(query, [req.body.USR_ID]);
         const response = {
-            data: result[0]
+            data: result
         };
         return res.status(200).send(response);
     } catch (error) {
