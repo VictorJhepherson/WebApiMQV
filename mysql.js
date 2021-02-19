@@ -8,4 +8,23 @@ var pool = mysql.createPool({
     "port": process.env.MYSQL_PORT
 });
 
+exports.execute = (query, param=[]) => {
+    return new Promise((resolve, reject) => {
+        pool.getConnection((error, conn) => {
+            if (error) { 
+                reject(error) 
+            } else {
+                conn.query(query, params, (error, results, fields) => {
+                    conn.release();
+                    if(error) {
+                        reject(error);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            }
+        });
+    });
+}
+
 exports.pool = pool;
