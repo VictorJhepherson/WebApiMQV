@@ -25,7 +25,7 @@ exports.login = (req, res, next) => {
                 if (result) {
                     let token = jwt.sign({
                         SU_LOGINNAME: results[0].SU_LOGINNAME
-                    }, process.env.JWT_KEY, {expiresIn: "1m" });
+                    }, process.env.JWT_KEY, {expiresIn: "7d" });
                     return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results[0], token: token });
                 }
                 return res.status(401).send({ mensagem: 'Falha na autenticação'});
@@ -55,7 +55,7 @@ exports.refresh = (req, res, next) => {
                 if (results.length < 1) {
                     return res.status(401).send({ mensagem: 'Falha na autenticação'});
                 }
-                let token = jwt.sign({ SU_LOGINNAME: results[0].SU_LOGINNAME }, process.env.JWT_KEY, {expiresIn: "1m" });
+                let token = jwt.sign({ SU_LOGINNAME: results[0].SU_LOGINNAME }, process.env.JWT_KEY, {expiresIn: "7d" });
                 return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results[0], token: token});
             });
         });
