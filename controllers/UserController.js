@@ -122,14 +122,13 @@ exports.updateUsers = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({ error: error}) }
         conn.query(
-            'CALL UPDATE_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            'CALL UPDATE_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
-                req.body.USR_ID, req.body.USRTYPE, req.body.USR_NAME, 
-                req.body.USR_DATEBIRTHDAY, req.body.USR_PHONENUMBER, req.body.CHURCH_ID, 
-                req.body.USR_STATUS, req.body.USRDOC_CPFNUMBER, 
-                req.body.USRDOC_RGNUMBER, req.body.STREET, 
-                req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, req.body.COMPLEMENT, req.body.TYPEHOUSE, 
-                req.body.CITY, req.body.STATE, req.body.SU_LOGINNAME, req.body.P_USRID_REGUSER
+                req.body.USR_ID, req.body.USRTYPE, req.body.USR_NAME, req.body.USR_DATEBIRTHDAY, 
+                req.body.USR_PHONENUMBER, req.body.CHURCH_ID, req.body.USR_STATUS, req.body.USR_INSTAGRAM, 
+                req.body.USR_FACEBOOK, req.body.USRDOC_CPFNUMBER, req.body.USRDOC_RGNUMBER, req.body.STREET, 
+                req.body.NEIGHBORHOOD, req.body.NUMBER_HOUSE, req.body.COMPLEMENT, req.body.TYPEHOUSE, req.body.CITY, 
+                req.body.STATE, req.body.SU_LOGINNAME, req.body.P_USRID_REGUSER
             ],
             (error, result, field) => {
                 conn.release();
