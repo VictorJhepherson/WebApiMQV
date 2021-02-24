@@ -7,12 +7,12 @@ const jwt = require('jsonwebtoken');
 exports.login = async (req, res, next) => {
     try {
         const query = 'SELECT * FROM SYSTEMUSERS SU INNER JOIN USERS USR ON USR.USR_ID = SU.USR_ID WHERE SU_LOGINNAME = ?';
-        const result = await mysql.execute(query, [req.body.SU_LOGINNAME]);
+        var result = await mysql.execute(query, [req.body.SU_LOGINNAME]);
         if(result.length < 1)
             return res.status(401).send({ mensagem: 'Falha na autenticação'});
-        if(await bcrypt.compareSync(req.body.SU_PASSWORD, result[0].SU_PASSWORD)) {
+        if( await bcrypt.compareSync(req.body.SU_PASSWORD, result[0].SU_PASSWORD)) {
             let token = jwt.sign({
-                SU_LOGINNAME: results[0].SU_LOGINNAME
+                SU_LOGINNAME: result[0].SU_LOGINNAME
             }, process.env.JWT_KEY, {expiresIn: "7d" });
 
             const response = {
@@ -38,7 +38,7 @@ exports.refresh = async (req, res, next) => {
     try {
         if (req.body.token != null && req.body.token != undefined) {
             const query = 'SELECT * FROM SYSTEMUSERS SU INNER JOIN USERS USR ON USR.USR_ID = SU.USR_ID WHERE SU.USR_ID = ?';
-            const result = await mysql.execute(query, [req.body.user]);
+            var result = await mysql.execute(query, [req.body.user]);
             if (result.length < 1) {
                 return res.status(401).send({ mensagem: 'Falha na autenticação'});
             } else {
