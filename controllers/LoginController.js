@@ -10,7 +10,7 @@ exports.login = async (req, res, next) => {
         const result = await mysql.execute(query, [req.body.SU_LOGINNAME]);
         if(result.length < 1)
             return res.status(401).send({ mensagem: 'Falha na autenticação'});
-        if(await bcrypt.compareSync(req.body.SU_PASSWORD, results[0].SU_PASSWORD)) {
+        if(await bcrypt.compareSync(req.body.SU_PASSWORD, result[0].SU_PASSWORD)) {
             let token = jwt.sign({
                 SU_LOGINNAME: results[0].SU_LOGINNAME
             }, process.env.JWT_KEY, {expiresIn: "7d" });
@@ -43,7 +43,7 @@ exports.refresh = async (req, res, next) => {
                 return res.status(401).send({ mensagem: 'Falha na autenticação'});
             } else {
                 let token = jwt.sign({ 
-                    SU_LOGINNAME: results[0].SU_LOGINNAME 
+                    SU_LOGINNAME: result[0].SU_LOGINNAME 
                 }, process.env.JWT_KEY, {expiresIn: "7d" });
     
                 const response = {
