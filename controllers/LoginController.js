@@ -4,28 +4,34 @@ const mysql = require('../mysql').pool;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.login = async (req, res, next) => {
-    try {
-        const query = 'SELECT * FROM SYSTEMUSERS SU INNER JOIN USERS USR ON USR.USR_ID = SU.USR_ID WHERE SU_LOGINNAME = ?';
-        var result = await mysql.execute(query, [req.body.SU_LOGINNAME]);
-        if(result.length < 1)
-            return res.status(401).send({ mensagem: 'Falha na autenticação'});
-        if( await bcrypt.compareSync(req.body.SU_PASSWORD, result[0].SU_PASSWORD)) {
-            let token = jwt.sign({
-                SU_LOGINNAME: result[0].SU_LOGINNAME
-            }, process.env.JWT_KEY, {expiresIn: "7d" });
-
-            const response = {
-                mensagem: 'Autenticado com sucesso',
-                data: result[0],
-                token: token
-            };
-            return res.status(200).send(response);
-        }       
-        return res.status(401).send({ message: 'Falha na autenticação' })
-    } catch(error) {
-        return res.status(500).send({error: error});
-    }
+exports.login = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if(error) { return res.status(500).send({ error: error }) }
+        const query = `SELECT * 
+                        FROM SYSTEMUSERS SU
+                       INNER JOIN USERS USR
+                          ON USR.USR_ID = SU.USR_ID
+                       WHERE SU_LOGINNAME = ?`;
+        conn.query(query, [req.body.SU_LOGINNAME], (error, results, fields) => {
+            conn.release();
+            if(error) { return res.status(500).send({ error: error }) }
+            if (results.length < 1) {
+                return res.status(401).send({ mensagem: 'Falha na autenticação'});
+            }
+            bcrypt.compare(req.body.SU_PASSWORD, results[0].SU_PASSWORD, (err, result) => {
+                if (err) {
+                    return res.status(401).send({ mensagem: 'Falha na autenticação'});
+                }
+                if (result) {
+                    let token = jwt.sign({
+                        SU_LOGINNAME: results[0].SU_LOGINNAME
+                    }, process.env.JWT_KEY, {expiresIn: "7d" });
+                    return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results[0], token: token });
+                }
+                return res.status(401).send({ mensagem: 'Falha na autenticação'});
+            });
+        });
+    });
 };
 
 exports.logout = (req, res, next) => {
@@ -34,29 +40,26 @@ exports.logout = (req, res, next) => {
     } 
 };
 
-exports.refresh = async (req, res, next) => {
-    try {
-        if (req.body.token != null && req.body.token != undefined) {
-            const query = 'SELECT * FROM SYSTEMUSERS SU INNER JOIN USERS USR ON USR.USR_ID = SU.USR_ID WHERE SU.USR_ID = ?';
-            var result = await mysql.execute(query, [req.body.user]);
-            if (result.length < 1) {
-                return res.status(401).send({ mensagem: 'Falha na autenticação'});
-            } else {
-                let token = jwt.sign({ 
-                    SU_LOGINNAME: result[0].SU_LOGINNAME 
-                }, process.env.JWT_KEY, {expiresIn: "7d" });
-    
-                const response = {
-                    mensagem: 'Autenticado com sucesso',
-                    data: result[0],
-                    token: token
-                };
-                return res.status(200).send(response);
-            }
-        } else {
-            return res.status(401).send({ mensagem: 'Falha na autenticação'});
-        }
-    } catch(error) {
-        return res.status(500).send({error: error});
+exports.refresh = (req, res, next) => {
+    if (req.body.token != null && req.body.token != undefined) {
+        mysql.getConnection((error, conn) => {
+            if(error) { return res.status(500).send({ error: error }) }
+            const query = `SELECT * 
+                             FROM SYSTEMUSERS SU
+                            INNER JOIN USERS USR
+                               ON USR.USR_ID = SU.USR_ID
+                            WHERE SU.USR_ID = ?`;
+            conn.query(query, [req.body.user], (error, results, fields) => {
+                conn.release();
+                if(error) { return res.status(500).send({ error: error }) }
+                if (results.length < 1) {
+                    return res.status(401).send({ mensagem: 'Falha na autenticação'});
+                }
+                let token = jwt.sign({ SU_LOGINNAME: results[0].SU_LOGINNAME }, process.env.JWT_KEY, {expiresIn: "7d" });
+                return res.status(200).send({ mensagem: 'Autenticado com sucesso', data: results[0], token: token});
+            });
+        });
+    } else {
+        return res.status(401).send({ mensagem: 'Falha na autenticação'});
     }
 };
